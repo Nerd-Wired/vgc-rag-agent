@@ -1,0 +1,98 @@
+[
+  {
+    "id": "rules_001",
+    "category": "format_rules",
+    "title": "Battle rules overview",
+    "text": "VGC battles are Double Battles, meaning each player sends out two Pokemon simultaneously at the start of a match. Standard best-of-three or single-game formats are used depending on the event. Each player has a fixed per-turn decision timer and an overall match timer; running out of time results in a loss."
+  },
+  {
+    "id": "rules_002",
+    "category": "format_rules",
+    "title": "Team construction rules",
+    "text": "Teams are built from six Pokemon, of which four are brought to each individual game. The Species Clause prevents using more than one Pokemon of the same species on a team. The Item Clause prevents more than one Pokemon from holding the same item. All Pokemon are auto-leveled to level 50 for battle regardless of their actual level, which is why EV and IV optimization matters more than raw level."
+  },
+  {
+    "id": "rules_003",
+    "category": "format_rules",
+    "title": "Regulation sets explained",
+    "text": "A Regulation Set is a ruleset layered on top of the base battle and team rules that determines which Pokemon, abilities, moves, and items are legal in a given season. Regulation sets change periodically, and the current one determines the competitive meta. Older regulation sets are generally not legal for new events once retired, though some may remain usable in casual or legacy modes."
+  },
+  {
+    "id": "rules_004",
+    "category": "format_rules",
+    "title": "Regulation M-A and M-B (Pokemon Champions era)",
+    "text": "Regulation Set M-A was the first ruleset for Pokemon Champions and permitted Mega Evolution, with only a specific list of Pokemon able to Mega Evolve. Regulation Set M-B followed M-A, keeping the same base ruleset while adding a wave of newly legal Pokemon, additional Mega Evolutions, and new items. Because M-B is additive to M-A rather than a full reset, most M-A team strategies and threats remain relevant, just with a larger pool of Pokemon and Mega options to prepare for."
+  },
+  {
+    "id": "rules_005",
+    "category": "format_rules",
+    "title": "Ranked ladder tiers",
+    "text": "The ranked ladder is structured in tiers from a beginner tutorial tier up through named ball tiers, with the Master Ball tier and Champion tier sitting at the top. Within a tier, players can gain and lose sub-rank progress based on results, but once a full tier threshold is crossed, players cannot drop back below that tier for the remainder of the season."
+  },
+  {
+    "id": "mech_001",
+    "category": "mechanics",
+    "title": "Mega Evolution basics",
+    "text": "Mega Evolution is a temporary battle-only transformation available to specific Pokemon holding their corresponding Mega Stone. It typically boosts stats and can change base ability, typing, or both. Only one Mega Evolution is permitted per team under standard Item Clause rules, and the Pokemon must Mega Evolve during the battle to gain the benefit; it reverts at the end of the battle."
+  },
+  {
+    "id": "mech_002",
+    "category": "mechanics",
+    "title": "Terastallization basics",
+    "text": "Terastallizing changes a Pokemon's type to its Tera Type for the rest of the battle, which can be used defensively to resist an expected attack or offensively to gain a same-type-attack-bonus on a move that would not normally benefit from it. Each Pokemon can Terastallize only once per battle, and choosing when to use it is a core strategic decision in a match."
+  },
+  {
+    "id": "mech_003",
+    "category": "mechanics",
+    "title": "Trick Room",
+    "text": "Trick Room is a field effect that reverses turn order for its duration, so slower Pokemon act before faster ones. Teams built around Trick Room typically use bulky, hard-hitting, low-Speed Pokemon and aim to set the field up before their opponent can respond, often using Fake Out or priority moves to buy the first turn."
+  },
+  {
+    "id": "mech_004",
+    "category": "mechanics",
+    "title": "Weather: Rain and Drizzle",
+    "text": "Rain, commonly set by the ability Drizzle, boosts the power of Water-type moves and weakens Fire-type moves, and enables the move Thunder to bypass its normal accuracy check. Rain teams typically pair a rain-setter with sweepers that benefit from the boosted Water-type damage or from abilities like Swift Swim that double Speed in rain."
+  },
+  {
+    "id": "mech_005",
+    "category": "mechanics",
+    "title": "Intimidate",
+    "text": "Intimidate is an ability that lowers the Attack stat of both opposing Pokemon by one stage when the Pokemon with Intimidate enters the battle. It is a strong tool against physical attackers and is often paired with Fake Out for a turn-one tempo swing, since the combination both weakens the opponent's physical damage output and denies them a turn of action."
+  },
+  {
+    "id": "mech_006",
+    "category": "mechanics",
+    "title": "Fake Out",
+    "text": "Fake Out is a priority move that always moves first in its priority bracket and causes the target to flinch, but it can only be used on the turn a Pokemon enters battle, and fails if used again later without switching out and back in. It is commonly used to disrupt an opponent's Trick Room setup or to protect a slower ally on the first turn."
+  },
+  {
+    "id": "mech_007",
+    "category": "mechanics",
+    "title": "Wide Guard and Protect-family moves",
+    "text": "Wide Guard blocks all moves that target both opposing Pokemon (spread moves) for one turn, protecting the user and its ally from moves like Rock Slide or Heat Wave without blocking single-target attacks. It is commonly used against restricted Pokemon or teams that rely heavily on spread damage to apply pressure."
+  },
+  {
+    "id": "strat_001",
+    "category": "strategy",
+    "title": "Countering Rain teams",
+    "text": "Rain teams are often weak to Pokemon that can remove or ignore the rain, such as those with the ability Cloud Nine or Air Lock, or to strong Grass-type attackers, since Water-boosted damage from rain does not affect Grass-type moves. Priority Electric-type moves are also effective, since Rain does not boost Electric-type damage while many rain sweepers rely on Water-type coverage that Grass-types resist."
+  },
+  {
+    "id": "strat_002",
+    "category": "strategy",
+    "title": "Countering Trick Room teams",
+    "text": "Trick Room teams are vulnerable during the setup turn, so fast Pokemon with Fake Out, Taunt, or priority moves that can disrupt the Trick Room setter before it acts are valuable. Once Trick Room is active, switching to naturally fast Pokemon becomes a liability, so teams facing Trick Room often plan to either prevent the setup entirely or run their own slow, bulky answers for the duration of the field effect."
+  },
+  {
+    "id": "strat_003",
+    "category": "strategy",
+    "title": "Countering Fake Out and Intimidate cores",
+    "text": "A Fake Out plus Intimidate core aims to win the first turn by flinching one target and weakening the Attack of both, denying the opponent both a turn of action and damage output. Common answers include Pokemon with the ability Inner Focus which prevents flinching, substitute-style protection, or simply prioritizing offense against the Fake Out user so it does not survive to repeat the tactic in later turns after switching."
+  },
+  {
+    "id": "strat_004",
+    "category": "strategy",
+    "title": "Mega Charizard Y team building notes",
+    "text": "Mega Charizard Y gains the ability Drought upon Mega Evolving, which sets sun and boosts Fire-type moves while weakening Water-type moves, making it a strong answer to Rain teams specifically because it can override the rain and turn the matchup around. Teams built around it typically include sun-benefiting attackers and Pokemon that can handle Trick Room, since Charizard Y is naturally fast and can be vulnerable if Trick Room is set against it."
+  }
+]

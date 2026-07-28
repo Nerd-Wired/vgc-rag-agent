@@ -1,0 +1,8 @@
+rank-bm25==0.2.2
+sentence-transformers==3.0.1
+numpy==1.26.4
+groq==0.11.0
+langgraph==0.2.16
+langchain-core==0.2.38
+streamlit==1.38.0
+python-dotenv==1.0.1

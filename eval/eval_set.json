@@ -1,0 +1,22 @@
+[
+  {"id": "q01", "question": "Can I use two Charizard on the same VGC team?", "expected_topic": "Species Clause"},
+  {"id": "q02", "question": "How many Pokemon do I bring to an individual VGC game?", "expected_topic": "team construction"},
+  {"id": "q03", "question": "What is Regulation M-B and how does it differ from M-A?", "expected_topic": "regulation sets"},
+  {"id": "q04", "question": "What level are Pokemon set to in official VGC battles?", "expected_topic": "auto-level 50"},
+  {"id": "q05", "question": "Can two Pokemon on my team hold the same item?", "expected_topic": "Item Clause"},
+  {"id": "q06", "question": "What does Mega Evolving actually change about a Pokemon?", "expected_topic": "Mega Evolution"},
+  {"id": "q07", "question": "How many times can a Pokemon Terastallize in one battle?", "expected_topic": "Terastallization"},
+  {"id": "q08", "question": "What does Trick Room do to turn order?", "expected_topic": "Trick Room"},
+  {"id": "q09", "question": "How should I build a team to counter Rain teams?", "expected_topic": "countering rain"},
+  {"id": "q10", "question": "What is a Fake Out plus Intimidate core and why is it strong?", "expected_topic": "Fake Out Intimidate"},
+  {"id": "q11", "question": "How do I stop my opponent from setting up Trick Room?", "expected_topic": "countering Trick Room"},
+  {"id": "q12", "question": "What ability does Mega Charizard Y get and why is it good against Rain?", "expected_topic": "Mega Charizard Y"},
+  {"id": "q13", "question": "What does Wide Guard protect against?", "expected_topic": "Wide Guard"},
+  {"id": "q14", "question": "Why is Fake Out only usable on the turn a Pokemon switches in?", "expected_topic": "Fake Out mechanics"},
+  {"id": "q15", "question": "What ability commonly sets up Rain teams?", "expected_topic": "Drizzle"},
+  {"id": "q16", "question": "Is Pokemon Scarlet and Violet still legal in ranked VGC play right now?", "expected_topic": "out of scope / insufficient context"},
+  {"id": "q17", "question": "Who won the most recent World Championships?", "expected_topic": "out of scope / insufficient context"},
+  {"id": "q18", "question": "What counters an Intimidate user specifically?", "expected_topic": "countering Intimidate"},
+  {"id": "q19", "question": "Can I bring all six of my team's Pokemon into a single game?", "expected_topic": "team construction (bring 4 of 6)"},
+  {"id": "q20", "question": "What's the best Tera Type for a physical attacker facing a Water-type wall?", "expected_topic": "out of scope / insufficient context (opinion-based, not in corpus)"}
+]
