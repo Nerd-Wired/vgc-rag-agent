@@ -2,7 +2,7 @@
 LangGraph orchestration for the VGC RAG multi-agent system.
 
 Flow:
-    retrieve -> rerank -> answer -> validate --grounded?--> END
+    retriever -> reranker -> answer -> validator --grounded?--> END
                    ^                    |
                    |__ not grounded ____|   (retry, up to MAX_RETRIES)
 
@@ -15,55 +15,64 @@ import uuid
 
 from langgraph.graph import END, StateGraph
 
-from src.agents import answer_node, reranker_node, validator_node
-from src.logging_utils import log_event, timed_node
-from src.retriever import HybridRetriever
+# Imported ALL four nodes cleanly from agents.py
+from src.agents import answer_node, reranker_node, retriever_node, validator_node
+from src.logging_utils import log_event
 
 MAX_RETRIES = 2
 
 
-def build_graph(corpus_path: str = "data/corpus.json"):
-    retriever = HybridRetriever(corpus_path=corpus_path)
-
-    @timed_node("retrieve")
-    def retrieve_node(state: dict) -> dict:
-        top_k = state.get("_retry_count", 0) * 3 + 5  # widen search on retry
-        chunks = retriever.retrieve(state["query"], top_k=top_k)
-        state["retrieved_chunks"] = chunks
-        state["_retrieve_meta"] = {}  # no LLM call, so no token cost
-        return state
-
+def build_graph():
+    """Builds and compiles the self-correcting RAG workflow graph."""
+    
     def route_after_validation(state: dict) -> str:
         grounded = state.get("is_grounded", True)
         retries = state.get("_retry_count", 0)
+        
+        # If grounded OR we've hit max retries, end execution cleanly
         if grounded or retries >= MAX_RETRIES:
             return "end"
-        state["_retry_count"] = retries + 1
+            
         return "retry"
 
     graph = StateGraph(dict)
-    graph.add_node("retrieve", retrieve_node)
-    graph.add_node("rerank", reranker_node)
+    
+    # Register our nodes using exact names
+    graph.add_node("retriever", retriever_node)
+    graph.add_node("reranker", reranker_node)
     graph.add_node("answer", answer_node)
-    graph.add_node("validate", validator_node)
+    graph.add_node("validator", validator_node)
 
-    graph.set_entry_point("retrieve")
-    graph.add_edge("retrieve", "rerank")
-    graph.add_edge("rerank", "answer")
-    graph.add_edge("answer", "validate")
+    # Define execution edge flow
+    graph.set_entry_point("retriever")
+    graph.add_edge("retriever", "reranker")
+    graph.add_edge("reranker", "answer")
+    graph.add_edge("answer", "validator")
+    
+    # Conditional feedback loop
     graph.add_conditional_edges(
-        "validate", route_after_validation, {"end": END, "retry": "retrieve"}
+        "validator", 
+        route_after_validation, 
+        {"end": END, "retry": "retriever"}
     )
 
     return graph.compile()
 
 
-def run_query(query: str, corpus_path: str = "data/corpus.json") -> dict:
-    app = build_graph(corpus_path)
+def run_query(query: str, chat_history: list[dict] = None) -> dict:
+    """Executes the compiled RAG workflow against a user query and history."""
+    app = build_graph()
     run_id = str(uuid.uuid4())[:8]
     log_event("run_start", run_id, query=query)
 
-    final_state = app.invoke({"query": query, "run_id": run_id, "_retry_count": 0})
+    initial_state = {
+        "query": query, 
+        "chat_history": chat_history or [],
+        "run_id": run_id, 
+        "_retry_count": 0
+    }
+
+    final_state = app.invoke(initial_state)
 
     log_event(
         "run_end",
@@ -75,7 +84,10 @@ def run_query(query: str, corpus_path: str = "data/corpus.json") -> dict:
 
 
 if __name__ == "__main__":
-    result = run_query("What should I run to beat a Trick Room team?")
-    print("\n--- ANSWER ---")
-    print(result["draft_answer"])
-    print(f"\nGrounded: {result['is_grounded']} | Retries: {result['_retry_count']}")
+    test_q = "What should I run to beat a Trick Room team?"
+    print(f"\n🚀 Launching RAG pipeline for: '{test_q}'...\n")
+    result = run_query(test_q)
+    
+    print("--- ANSWER ---")
+    print(result.get("draft_answer", "No answer generated."))
+    print(f"\nGrounded: {result.get('is_grounded')} | Retries: {result.get('_retry_count')}")

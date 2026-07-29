@@ -3,96 +3,288 @@
     "id": "rules_001",
     "category": "format_rules",
     "title": "Battle rules overview",
-    "text": "VGC battles are Double Battles, meaning each player sends out two Pokemon simultaneously at the start of a match. Standard best-of-three or single-game formats are used depending on the event. Each player has a fixed per-turn decision timer and an overall match timer; running out of time results in a loss."
+    "text": "VGC battles in Pokemon Champions are Double Battles: each player sends out two Pokemon at once. Each player selects four of the six Pokemon on their team for an individual game. A match continues until one player's four brought Pokemon have all fainted, or the game timer expires, in which case remaining HP percentage and other tiebreakers decide the winner. Matches have a 20-turn limit and each player has roughly 45 seconds per turn."
   },
   {
     "id": "rules_002",
     "category": "format_rules",
     "title": "Team construction rules",
-    "text": "Teams are built from six Pokemon, of which four are brought to each individual game. The Species Clause prevents using more than one Pokemon of the same species on a team. The Item Clause prevents more than one Pokemon from holding the same item. All Pokemon are auto-leveled to level 50 for battle regardless of their actual level, which is why EV and IV optimization matters more than raw level."
+    "text": "Teams are built from six Pokemon. The Species Clause bans using two Pokemon with the same Pokedex number on one team, even if they are different forms. The Item Clause bans holding duplicate items across the team. All Pokemon are auto-leveled to 50 for battle regardless of their actual level, so EV/IV optimization at level 50 is what matters competitively, not raw level."
   },
   {
     "id": "rules_003",
     "category": "format_rules",
     "title": "Regulation sets explained",
-    "text": "A Regulation Set is a ruleset layered on top of the base battle and team rules that determines which Pokemon, abilities, moves, and items are legal in a given season. Regulation sets change periodically, and the current one determines the competitive meta. Older regulation sets are generally not legal for new events once retired, though some may remain usable in casual or legacy modes."
+    "text": "A Regulation Set is layered on top of the base battle and team rules and determines which Pokemon, Mega Evolutions, abilities, moves, and items are legal for a given season. Regulation sets are typically additive: a new regulation usually keeps everything from the previous one and adds new content on top, rather than resetting the legal pool from scratch."
   },
   {
     "id": "rules_004",
     "category": "format_rules",
-    "title": "Regulation M-A and M-B (Pokemon Champions era)",
-    "text": "Regulation Set M-A was the first ruleset for Pokemon Champions and permitted Mega Evolution, with only a specific list of Pokemon able to Mega Evolve. Regulation Set M-B followed M-A, keeping the same base ruleset while adding a wave of newly legal Pokemon, additional Mega Evolutions, and new items. Because M-B is additive to M-A rather than a full reset, most M-A team strategies and threats remain relevant, just with a larger pool of Pokemon and Mega options to prepare for."
+    "title": "Regulation M-A to M-B transition",
+    "text": "Regulation Set M-A was the first ruleset for Pokemon Champions, running from April 8 to June 17, 2026, and permitted Mega Evolution for a specific list of species. Regulation Set M-B followed on June 17, 2026 and runs through September 2, 2026, covering the 2026 World Championships. M-B keeps the entire M-A roster and rule set intact and adds 22 new base species, 16 new Mega Evolutions across 15 species, and roughly 31 new held items, along with some move and ability tweaks aimed at trimming the most dominant M-A strategies. Nothing was removed from the M-A roster."
   },
   {
     "id": "rules_005",
     "category": "format_rules",
+    "title": "No restricted or banned Pokemon in M-B",
+    "text": "As of Regulation M-B, no specific Pokemon are restricted or banned. Any Pokemon transferable into Pokemon Champions via Pokemon HOME is legal to use, including all its available Mega Evolutions, with the Species and Item Clauses being the only limits on team construction. The legal pool sits at roughly 224 base species. A small number of Pokemon such as certain Vivillon and Furfrou forms and Eternal Flower Floette remain HOME-transfer exclusive and cannot currently be obtained in-game directly."
+  },
+  {
+    "id": "rules_006",
+    "category": "format_rules",
     "title": "Ranked ladder tiers",
-    "text": "The ranked ladder is structured in tiers from a beginner tutorial tier up through named ball tiers, with the Master Ball tier and Champion tier sitting at the top. Within a tier, players can gain and lose sub-rank progress based on results, but once a full tier threshold is crossed, players cannot drop back below that tier for the remainder of the season."
+    "text": "The ranked ladder runs through a beginner tutorial tier, several named ball tiers, and finally the Master Ball tier and Champion tier at the top. Within a tier, sub-rank progress can be lost by losing matches, but once a player crosses a full tier threshold (for example from Great Ball into Ultra Ball), they cannot drop back below that tier for the rest of the season, even on a long losing streak."
   },
   {
     "id": "mech_001",
     "category": "mechanics",
     "title": "Mega Evolution basics",
-    "text": "Mega Evolution is a temporary battle-only transformation available to specific Pokemon holding their corresponding Mega Stone. It typically boosts stats and can change base ability, typing, or both. Only one Mega Evolution is permitted per team under standard Item Clause rules, and the Pokemon must Mega Evolve during the battle to gain the benefit; it reverts at the end of the battle."
+    "text": "Mega Evolution is a temporary, battle-only transformation available only to specific Pokemon holding their matching Mega Stone. It usually changes stats and can change ability, typing, or both, and reverts at the end of the battle. Only one Pokemon per team may Mega Evolve in a given battle, and it must actually Mega Evolve during that battle to receive any benefit."
   },
   {
     "id": "mech_002",
     "category": "mechanics",
     "title": "Terastallization basics",
-    "text": "Terastallizing changes a Pokemon's type to its Tera Type for the rest of the battle, which can be used defensively to resist an expected attack or offensively to gain a same-type-attack-bonus on a move that would not normally benefit from it. Each Pokemon can Terastallize only once per battle, and choosing when to use it is a core strategic decision in a match."
+    "text": "Terastallizing changes a Pokemon's type to its Tera Type for the remainder of the battle. It can be used defensively, to gain resistance against an expected attack, or offensively, to gain a same-type-attack-bonus on a move that would not normally receive one. Each Pokemon may Terastallize only once per battle, and the timing of when to use it is a core strategic decision. Common competitive patterns include Tera-ing to a bulky type like Steel to survive a hit, or Tera-ing to Ghost specifically to become immune to an incoming Normal or Fighting-type attack."
   },
   {
     "id": "mech_003",
     "category": "mechanics",
     "title": "Trick Room",
-    "text": "Trick Room is a field effect that reverses turn order for its duration, so slower Pokemon act before faster ones. Teams built around Trick Room typically use bulky, hard-hitting, low-Speed Pokemon and aim to set the field up before their opponent can respond, often using Fake Out or priority moves to buy the first turn."
+    "text": "Trick Room is a field effect lasting 5 turns that reverses turn order: slower Pokemon act before faster ones. Teams built around it typically run bulky, hard-hitting, low-Speed attackers, and try to get Trick Room active before the opponent can respond, often using Fake Out or redirection to secure the first turn for the setter. Trick Room teams typically need one or two turns of setup protection before they can fully take over a game."
   },
   {
     "id": "mech_004",
     "category": "mechanics",
     "title": "Weather: Rain and Drizzle",
-    "text": "Rain, commonly set by the ability Drizzle, boosts the power of Water-type moves and weakens Fire-type moves, and enables the move Thunder to bypass its normal accuracy check. Rain teams typically pair a rain-setter with sweepers that benefit from the boosted Water-type damage or from abilities like Swift Swim that double Speed in rain."
+    "text": "Rain, most commonly set by the ability Drizzle (found on Pelipper in the current format), boosts Water-type move power and weakens Fire-type moves, and lets the move Thunder bypass its normal accuracy check. Rain teams pair a rain-setter with sweepers that benefit from boosted Water damage or from Speed-doubling abilities like Swift Swim, which several Pokemon newly legal in Regulation M-B carry."
   },
   {
     "id": "mech_005",
     "category": "mechanics",
-    "title": "Intimidate",
-    "text": "Intimidate is an ability that lowers the Attack stat of both opposing Pokemon by one stage when the Pokemon with Intimidate enters the battle. It is a strong tool against physical attackers and is often paired with Fake Out for a turn-one tempo swing, since the combination both weakens the opponent's physical damage output and denies them a turn of action."
+    "title": "Weather: Sun and Drought",
+    "text": "Sun, set by the ability Drought, boosts Fire-type move power and weakens Water-type moves. It is the direct counter-weather to Rain, since a Drought user switching in can override an active Rain field and reverse the damage boosts in play. Sun teams typically build around a Drought setter and Fire-type or sun-benefiting attackers."
   },
   {
     "id": "mech_006",
     "category": "mechanics",
-    "title": "Fake Out",
-    "text": "Fake Out is a priority move that always moves first in its priority bracket and causes the target to flinch, but it can only be used on the turn a Pokemon enters battle, and fails if used again later without switching out and back in. It is commonly used to disrupt an opponent's Trick Room setup or to protect a slower ally on the first turn."
+    "title": "Intimidate",
+    "text": "Intimidate lowers the Attack stat of both opposing Pokemon by one stage the moment the Pokemon with Intimidate enters battle. It is a strong answer to physical attackers and is frequently paired with Fake Out for a turn-one tempo swing, since the combination both weakens incoming physical damage and denies the opponent a turn of action."
   },
   {
     "id": "mech_007",
     "category": "mechanics",
-    "title": "Wide Guard and Protect-family moves",
-    "text": "Wide Guard blocks all moves that target both opposing Pokemon (spread moves) for one turn, protecting the user and its ally from moves like Rock Slide or Heat Wave without blocking single-target attacks. It is commonly used against restricted Pokemon or teams that rely heavily on spread damage to apply pressure."
+    "title": "Fake Out",
+    "text": "Fake Out is a priority move that always moves first within its priority bracket and causes the target to flinch, but it can only be used on the turn its user enters the battle, and fails on later turns unless the user switches out and back in. It is commonly used to disrupt an opponent's Trick Room setup on the turn it would otherwise go up, or to protect a slower ally on the turn it enters."
+  },
+  {
+    "id": "mech_008",
+    "category": "mechanics",
+    "title": "Wide Guard",
+    "text": "Wide Guard is a priority move that blocks all moves that target both opposing Pokemon (spread moves, such as Heat Wave, Rock Slide, Make It Rain, or Earthquake) for one turn, protecting the user and its ally without blocking single-target attacks. Certain attackers with the ability Stalwart or Propeller Tail, or moves used by a Pokemon with those abilities, can bypass Wide Guard entirely. Legal Regulation M-B users of Wide Guard include Gallade, Machamp, Conkeldurr, Pelipper, and Swampert."
+  },
+  {
+    "id": "mech_009",
+    "category": "mechanics",
+    "title": "Spread move damage reduction",
+    "text": "In Double Battles, moves that target both opposing Pokemon at once (spread moves) deal 75% of their normal damage to each target, rather than full damage. This is why single-target moves are often preferred for finishing off a specific Pokemon, while spread moves are typically used to apply pressure to both opponents simultaneously rather than to secure a guaranteed knockout."
+  },
+  {
+    "id": "mech_010",
+    "category": "mechanics",
+    "title": "Redirection: Follow Me and Rage Powder",
+    "text": "Follow Me and Rage Powder are priority moves that force all single-target attacks made that turn onto the user, protecting a partner attacker or a setup Pokemon so it can act completely unpunished. Rage Powder specifically fails against Grass-type Pokemon, and against any Pokemon holding Safety Goggles or with the ability Overcoat, since these all grant immunity to powder-based moves; Follow Me has no such exception. Both are commonly countered by spread moves, which ignore redirection entirely, or by a Taunt that disables the redirector before it can act."
+  },
+  {
+    "id": "mech_011",
+    "category": "mechanics",
+    "title": "Speed control: Tailwind",
+    "text": "Tailwind is a Flying-type move that doubles the Speed of every Pokemon on the user's side of the field for 4 turns, including the turn it is used. Unlike Trick Room, Tailwind does not reverse turn order — it simply makes an already-fast team even faster, or lets a mid-Speed team outrun the opponent for its duration. A common counter-strategy is for the opponent to set their own Tailwind, which cancels out the relative Speed advantage since both sides are then doubled."
+  },
+  {
+    "id": "mech_012",
+    "category": "mechanics",
+    "title": "Prankster",
+    "text": "Prankster grants a Pokemon's status moves (non-damaging moves) plus-one priority, meaning moves like Taunt, Tailwind, screens, or Rage Powder go before most attacking moves even on a slower Pokemon. This makes naturally slow support Pokemon with Prankster surprisingly good at securing key utility effects before the opponent can respond, though Prankster-boosted status moves still fail against Dark-type Pokemon, which are immune to priority status moves specifically."
+  },
+  {
+    "id": "megaupdate_001",
+    "category": "regulation_mb_new_content",
+    "title": "Overview of new content in Regulation M-B",
+    "text": "Regulation M-B adds 22 new base species and 16 new Mega Evolutions across 15 species (Raichu gets two distinct Mega forms, X and Y) on top of the full Regulation M-A roster. Most of the new species are returning Mega Evolutions that were absent from M-A, including the three Hoenn starters, Mawile, and Metagross, alongside several Mega forms exclusive to Pokemon Champions. Notable new non-Mega species include Gholdengo, Annihilape, and Grimmsnarl."
+  },
+  {
+    "id": "roster_ma_staples",
+    "category": "regulation_mb_new_content",
+    "title": "Established Regulation M-A staples still legal in M-B",
+    "text": "Because Regulation M-B is additive rather than a reset, established Regulation M-A threats remain fully legal and relevant, including Garchomp, Incineroar, Kingambit, Sneasler, Dragonite, Hydreigon, Whimsicott, and Amoonguss. These Pokemon are commonly seen as teammates alongside the new Regulation M-B additions rather than being replaced by them, since the new content adds options on top of an existing, well-established metagame rather than displacing it."
+  },
+  {
+    "id": "mega_sceptile",
+    "category": "mega_evolution_profile",
+    "title": "Mega Sceptile",
+    "text": "Mega Sceptile is Grass/Dragon type with the ability Lightning Rod, which redirects single-target Electric moves to it and boosts its Special Attack rather than damaging it. Its stat spread favors Speed and Special Attack (base stats roughly 70/110/75/145/85/145), tying for the fastest Mega in the format. It is a fast special attacker with access to Earth Power, Dragon Pulse, Giga Drain, Leaf Storm, and Vacuum Wave, though it lacks Draco Meteor and has a relatively shallow special movepool overall."
+  },
+  {
+    "id": "mega_blaziken",
+    "category": "mega_evolution_profile",
+    "title": "Mega Blaziken",
+    "text": "Mega Blaziken is Fire/Fighting type with the ability Speed Boost, which raises its Speed one stage at the end of every turn it is on the field. This makes it dangerous if it survives even one turn, since its second turn onward it becomes very fast. It is somewhat frail for a Mega, and is often played with Protect on the first turn to stall until Speed Boost triggers. Its stat spread favors Attack and Special Attack (roughly 80/160/80/130/80/100), making it a strong mixed wallbreaker."
+  },
+  {
+    "id": "mega_swampert",
+    "category": "mega_evolution_profile",
+    "title": "Mega Swampert",
+    "text": "Mega Swampert is Water/Ground type with the ability Swift Swim, doubling its Speed in Rain. It is expected to see heavy play on Rain teams paired with a Drizzle setter like Pelipper, since doubling from a base around 70 Speed lets it outrun much of the format while Rain is active. It gained Wave Crash in Regulation M-B, giving it a strong physical Water-type STAB option alongside its existing Ground-type coverage like Earthquake."
+  },
+  {
+    "id": "mega_mawile",
+    "category": "mega_evolution_profile",
+    "title": "Mega Mawile",
+    "text": "Mega Mawile is Steel/Fairy type with the ability Huge Power, which doubles its Attack stat. Its base Attack of 105 becomes an effective 210 after the doubling, making moves like Play Rough and Iron Head hit extremely hard despite an unremarkable listed Attack stat. Its Steel/Fairy typing also gives it strong defensive utility, including resisting Dragon-type attacks and walling some priority Dark-type moves like Sucker Punch from Pokemon such as Kingambit."
+  },
+  {
+    "id": "mega_metagross",
+    "category": "mega_evolution_profile",
+    "title": "Mega Metagross",
+    "text": "Mega Metagross is Steel/Psychic type with the ability Tough Claws, boosting the power of its contact moves. It carries Bullet Punch for priority, a Meteor Mash with a stat-boost chance, and Ice Punch for coverage, making it a strong all-rounder. In Regulation M-B it lost access to Heavy Slam and Knock Off compared to some earlier formats, but remains a top defensive and offensive Steel-type option."
+  },
+  {
+    "id": "mega_raichu_x",
+    "category": "mega_evolution_profile",
+    "title": "Mega Raichu X",
+    "text": "Mega Raichu X is a physical-leaning Electric-type Mega Evolution introduced in Regulation M-B, using the Raichunite X Mega Stone (which has no effect on Alolan Raichu). Its ability is Electric Surge, setting Electric Terrain on switch-in, which boosts Electric-type move power for grounded Pokemon and prevents grounded Pokemon from falling asleep. Its stat spread favors Attack and defenses over Mega Raichu Y (roughly 60 HP/135 Attack/95 Defense/90 Sp. Attack/95 Sp. Defense/110 Speed), with Volt Tackle as its signature strong physical STAB move, though Volt Tackle causes recoil damage which is a real limitation given its low HP stat."
+  },
+  {
+    "id": "mega_raichu_y",
+    "category": "mega_evolution_profile",
+    "title": "Mega Raichu Y",
+    "text": "Mega Raichu Y is a special-attacking glass cannon Electric-type Mega Evolution introduced in Regulation M-B, using the Raichunite Y Mega Stone. Its ability is No Guard, which makes all of its own moves hit with 100% accuracy but also makes all incoming attacks against it hit with 100% accuracy as well. Its stat spread favors Special Attack and Speed (roughly 60 HP, base Sp. Attack around 160, base Speed around 130), among the highest special attacking stats of any Mega in the format. Its signature set uses Zap Cannon, a move that normally has only 50% accuracy but becomes fully accurate under No Guard and is guaranteed to paralyze the target on hit; it is weak to Ground-type moves (2x) since it has no secondary typing to offset that weakness."
+  },
+  {
+    "id": "mega_pyroar",
+    "category": "mega_evolution_profile",
+    "title": "Mega Pyroar",
+    "text": "Mega Pyroar is a Fire/Normal type Mega Evolution newly added in Regulation M-B, requiring its own dedicated Mega Stone. It adds another Fire-type Mega option to the format, giving Sun-oriented teams an additional attacker to consider alongside more established Fire-types."
+  },
+  {
+    "id": "mega_eelektross",
+    "category": "mega_evolution_profile",
+    "title": "Mega Eelektross",
+    "text": "Mega Eelektross is an Electric-type Mega Evolution added in Regulation M-B. Unlike most Eelektross sets, which lean defensive, the Mega form is built to capitalize on its typing and movepool as a more offensively-oriented pick, giving Electric-type teams a new Mega option."
+  },
+  {
+    "id": "mega_scolipede",
+    "category": "mega_evolution_profile",
+    "title": "Mega Scolipede",
+    "text": "Mega Scolipede is a Bug/Poison type Mega Evolution added in Regulation M-B. It is generally used as a fast physical attacker or Speed-control support piece, benefiting from the general Mega stat boost on top of Scolipede's already high base Speed."
+  },
+  {
+    "id": "mega_scrafty",
+    "category": "mega_evolution_profile",
+    "title": "Mega Scrafty",
+    "text": "Mega Scrafty is a Dark/Fighting type Mega Evolution added in Regulation M-B, giving Scrafty a bulkier, harder-hitting form. It fits into physically defensive cores that also want reliable Fighting and Dark-type coverage against common threats."
+  },
+  {
+    "id": "mega_malamar",
+    "category": "mega_evolution_profile",
+    "title": "Mega Malamar",
+    "text": "Mega Malamar is a Dark/Psychic type Mega Evolution added in Regulation M-B. Its kit centers on stat manipulation moves like Superpower and Topsy-Turvy alongside solid bulk, letting it disrupt an opponent's setup while contributing its own offense."
+  },
+  {
+    "id": "mega_barbaracle",
+    "category": "mega_evolution_profile",
+    "title": "Mega Barbaracle",
+    "text": "Mega Barbaracle is a Rock/Water type Mega Evolution added in Regulation M-B, requiring its own Mega Stone. It provides a physically-oriented Rock/Water attacker option, filling a niche that had limited strong Mega representation before this regulation."
+  },
+  {
+    "id": "mega_dragalge",
+    "category": "mega_evolution_profile",
+    "title": "Mega Dragalge",
+    "text": "Mega Dragalge is a Poison/Dragon type Mega Evolution added in Regulation M-B. It leans into a bulkier special attacking role, using its Poison/Dragon typing to check a range of common attacking types while contributing reliable special damage."
+  },
+  {
+    "id": "mega_falinks",
+    "category": "mega_evolution_profile",
+    "title": "Mega Falinks",
+    "text": "Mega Falinks is a Fighting-type Mega Evolution added in Regulation M-B. It amplifies Falinks' focus on multi-hit and priority-adjacent physical pressure, giving Fighting-type teams another strong physical attacker option."
+  },
+  {
+    "id": "gholdengo_profile",
+    "category": "notable_pokemon_profile",
+    "title": "Gholdengo (new in Regulation M-B)",
+    "text": "Gholdengo is one of the notable new non-Mega species added in Regulation M-B. It is a Steel/Ghost type known for the ability Good as Gold, which grants full immunity to all status moves, including Spore, Taunt, Encore, Thunder Wave, and Rage Powder, and for reliable special attacking power through Make It Rain (a spread move) and Shadow Ball. Its unique typing gives it strong defensive utility against common physical Steel and Ghost-type threats, while remaining vulnerable to strong Fire, Ground, or Dark-type coverage."
+  },
+  {
+    "id": "annihilape_profile",
+    "category": "notable_pokemon_profile",
+    "title": "Annihilape (new in Regulation M-B)",
+    "text": "Annihilape is one of the notable new non-Mega species added in Regulation M-B. It is a Fighting/Ghost type with the ability Defiant, which raises its Attack sharply when an opponent lowers its stats, making it a strong deterrent against Intimidate users, effectively turning an Intimidate switch-in into a free Attack boost for Annihilape. It combines this with hard-hitting Fighting and Ghost-type STAB moves, including Rage Fist, which grows stronger the more times Annihilape has been hit."
+  },
+  {
+    "id": "grimmsnarl_profile",
+    "category": "notable_pokemon_profile",
+    "title": "Grimmsnarl (new in Regulation M-B)",
+    "text": "Grimmsnarl is one of the notable new non-Mega species added in Regulation M-B. It is a Dark/Fairy type commonly used as a support piece, providing Light Screen and Reflect through its Prankster-boosted priority, as well as disruption via Taunt and Spore, making it a strong partner for setup-based teams. Its Prankster-boosted Taunt is particularly effective at shutting down enemy Trick Room or redirection setters before they can act, though Prankster priority status moves fail against Dark-type opposing Pokemon."
   },
   {
     "id": "strat_001",
     "category": "strategy",
     "title": "Countering Rain teams",
-    "text": "Rain teams are often weak to Pokemon that can remove or ignore the rain, such as those with the ability Cloud Nine or Air Lock, or to strong Grass-type attackers, since Water-boosted damage from rain does not affect Grass-type moves. Priority Electric-type moves are also effective, since Rain does not boost Electric-type damage while many rain sweepers rely on Water-type coverage that Grass-types resist."
+    "text": "Rain teams are weak to Pokemon that remove or override the weather, such as a Drought user setting Sun instead, since Rain does not boost Electric-type damage while many rain sweepers rely on Water-type coverage that Grass-types resist. Strong Grass-type attackers and priority Electric-type moves are both effective answers, since neither is weakened by an active Rain field the way Fire-type moves are."
   },
   {
     "id": "strat_002",
     "category": "strategy",
-    "title": "Countering Trick Room teams",
-    "text": "Trick Room teams are vulnerable during the setup turn, so fast Pokemon with Fake Out, Taunt, or priority moves that can disrupt the Trick Room setter before it acts are valuable. Once Trick Room is active, switching to naturally fast Pokemon becomes a liability, so teams facing Trick Room often plan to either prevent the setup entirely or run their own slow, bulky answers for the duration of the field effect."
+    "title": "Rain team building notes for Regulation M-B",
+    "text": "Regulation M-B strengthens Rain teams by adding Mega Swampert, whose Swift Swim doubles its Speed in Rain, to the existing Pelipper-based Drizzle shell. A common core discussed for M-B pairs Pelipper for Drizzle, a Water-type sweeper like Basculegion or Mega Swampert, and support to handle the team's shared weakness to Grass-type coverage and to Fire-types that can switch in and set Sun to cancel the Rain."
   },
   {
     "id": "strat_003",
     "category": "strategy",
-    "title": "Countering Fake Out and Intimidate cores",
-    "text": "A Fake Out plus Intimidate core aims to win the first turn by flinching one target and weakening the Attack of both, denying the opponent both a turn of action and damage output. Common answers include Pokemon with the ability Inner Focus which prevents flinching, substitute-style protection, or simply prioritizing offense against the Fake Out user so it does not survive to repeat the tactic in later turns after switching."
+    "title": "Countering Trick Room teams",
+    "text": "Trick Room teams are most vulnerable during their setup turn, so fast Pokemon with Fake Out, Taunt, or priority moves that can disrupt the setter before it acts are valuable answers. Once Trick Room is active, switching in naturally fast Pokemon becomes a liability, since they will act last; teams facing Trick Room often prepare either to prevent the setup entirely or to run their own slow, bulky answers for the duration of the field effect. Setting your own Tailwind does not cancel Trick Room's turn-order reversal, since Trick Room's speed-order inversion still applies on top of any Tailwind-boosted speed values."
   },
   {
     "id": "strat_004",
     "category": "strategy",
+    "title": "Countering Fake Out and Intimidate cores",
+    "text": "A Fake Out plus Intimidate core tries to win the first turn by flinching one target and weakening the Attack of both opposing Pokemon, denying a turn of action and reducing incoming physical damage. Common answers include Pokemon with the ability Inner Focus, which prevents flinching, or Annihilape's Defiant, which turns an Intimidate drop into an Attack boost instead, along with simply prioritizing offense against the Fake Out user so it does not survive to repeat the tactic after switching."
+  },
+  {
+    "id": "strat_005",
+    "category": "strategy",
     "title": "Mega Charizard Y team building notes",
-    "text": "Mega Charizard Y gains the ability Drought upon Mega Evolving, which sets sun and boosts Fire-type moves while weakening Water-type moves, making it a strong answer to Rain teams specifically because it can override the rain and turn the matchup around. Teams built around it typically include sun-benefiting attackers and Pokemon that can handle Trick Room, since Charizard Y is naturally fast and can be vulnerable if Trick Room is set against it."
+    "text": "Mega Charizard Y gains the ability Drought on Mega Evolving, setting Sun and boosting Fire-type moves while weakening Water-type moves, making it a strong direct answer to Rain teams since it can override the Rain and swing that matchup. Teams built around it typically include other Sun-benefiting attackers and dedicated answers to Trick Room, since Charizard Y is naturally fast and vulnerable if Trick Room is set against it."
+  },
+  {
+    "id": "strat_006",
+    "category": "strategy",
+    "title": "Countering Mega Metagross and Mega Mawile",
+    "text": "Both Mega Metagross and Mega Mawile are Steel-types and share a weakness to strong Fire-type and Fighting-type attacks, which bypass their Steel typing's many resistances. Mega Mawile's Fairy secondary typing also gives it a weakness to Poison and Steel-type coverage moves specifically, while Mega Metagross's Psychic secondary typing makes it weak to Dark and Ghost-type coverage. Priority moves are a poor answer to either, since Mega Metagross's own Bullet Punch and generally high bulk let it survive most priority attacks."
+  },
+  {
+    "id": "strat_007",
+    "category": "strategy",
+    "title": "Countering Gholdengo",
+    "text": "Gholdengo's Good as Gold ability blocks all status moves, so disruption through Taunt, Thunder Wave, or spore-based moves will not work on it. Because it is Steel/Ghost typed, strong Fire-type, Ground-type, or Dark-type attacks bypass many of its resistances and are the more reliable way to pressure it, since physical Normal and Fighting-type moves are blocked entirely by its Ghost typing."
+  },
+  {
+    "id": "strat_008",
+    "category": "strategy",
+    "title": "Countering Mega Raichu Y",
+    "text": "Mega Raichu Y's No Guard ability is a double-edged sword: while it guarantees its own attacks land, it also means any attack aimed at it will land with 100% accuracy regardless of the attacker's own accuracy stat or evasion-lowering effects on Raichu. With no secondary typing, it takes 2x damage from any Ground-type move, making Ground-type coverage moves or a Ground-type Tera the single most reliable way to remove it before it can fire off its own attack."
+  },
+  {
+    "id": "strat_009",
+    "category": "strategy",
+    "title": "Redirection as a team-building tool",
+    "text": "Building a Follow Me or Rage Powder user into a team lets a fragile sweeper or a Trick Room setter act safely on the turn it is most vulnerable, since single-target attacks aimed at either Pokemon get pulled onto the redirector instead. This is countered by opponents using spread moves, which ignore redirection entirely, or a Taunt aimed at the redirector before it can act, so redirection-based teams often also carry Wide Guard or their own Taunt disruption as insurance."
+  },
+  {
+    "id": "strat_010",
+    "category": "strategy",
+    "title": "Tailwind vs Trick Room speed control",
+    "text": "Tailwind and Trick Room solve the same underlying problem, controlling who moves first, in opposite ways: Tailwind doubles your own team's Speed for 4 turns, favoring teams that are already moderately fast, while Trick Room fully reverses turn order for 5 turns, favoring teams built around slow, bulky attackers. If both sides set Tailwind, the relative Speed advantage cancels out since both teams are doubled equally; if Trick Room is active, a Tailwind-boosted Speed value is still inverted by Trick Room's ordering, so the two effects do not simply cancel each other the way mirrored Tailwind does."
   }
 ]

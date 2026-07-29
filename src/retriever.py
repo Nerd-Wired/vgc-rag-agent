@@ -1,124 +1,132 @@
 """
-Hybrid retriever for the VGC RAG agent.
-
-Combines BM25 (lexical) and dense embedding similarity (semantic) using
-Reciprocal Rank Fusion (RRF) — fuses on rank position rather than raw
-score, since BM25 and cosine similarity live on different, incomparable
-scales and BM25 scores are query-dependent in a way cosine similarity
-isn't.
+Online Hybrid Retriever module for the VGC RAG Agent.
+Uses psycopg_pool for connection management and Reciprocal Rank Fusion (RRF)
+in PostgreSQL to merge dense vector similarity and lexical BM25 scores.
 """
-import json
-import re
-from dataclasses import dataclass
-from pathlib import Path
-
+import os
+from typing import Any, Dict, List
+from dotenv import load_dotenv
 import numpy as np
-from rank_bm25 import BM25Okapi
+from pgvector.psycopg import register_vector
+from psycopg_pool import ConnectionPool
 from sentence_transformers import SentenceTransformer
 
+# Load environment variables
+load_dotenv()
 
-@dataclass
-class Chunk:
-    id: str
-    category: str
-    title: str
-    text: str
+DATABASE_URL = os.getenv("DATABASE_URL")
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+RRF_CONSTANT = 60
+
+# 1. Initialize Global Resources (Loaded once at server startup)
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL is missing from environment variables.")
+
+print(f"[{__name__}] Initializing embedding model: {EMBEDDING_MODEL}...")
+embedder = SentenceTransformer(EMBEDDING_MODEL)
+
+# Define the adapter registration callback BEFORE creating the pool
+def _configure_connection(conn):
+    register_vector(conn)
+
+print(f"[{__name__}] Initializing PostgreSQL connection pool...")
+# Pass the configure callback directly into the constructor
+pool = ConnectionPool(
+    conninfo=DATABASE_URL,
+    min_size=1,
+    max_size=10,
+    configure=_configure_connection, 
+    kwargs={"autocommit": True}
+)
 
 
-def _tokenize(text: str) -> list[str]:
+def retrieve(query: str, top_k: int = 5) -> List[Dict[str, Any]]:
     """
-    Domain-aware tokenization for Pokemon VGC.
+    Executes a hybrid search (Dense HNSW + Lexical GIN) using RRF ranking.
     
-    Preserves hyphenated names (e.g., 'Chien-Pao', 'Will-O-Wisp', 'Urshifu-R')
-    and internal periods ('Sp. Atk') while stripping terminal sentence punctuation.
+    Args:
+        query (str): The user's natural language question.
+        top_k (int): Number of top documents to return after fusion.
+        
+    Returns:
+        List[Dict[str, Any]]: Ranked list of metadata and text chunks.
     """
-    # Matches words with optional internal hyphens or periods (e.g., chien-pao, sp.atk, porygon-z)
-    pattern = r"\b[a-z0-9]+(?:[-.'][a-z0-9]+)*\b"
-    return re.findall(pattern, text.lower())
+    if not query.strip():
+        return []
 
+    # 1. Generate query embedding (384-dimensional unit-normalized vector)
+    query_vector = embedder.encode(query, normalize_embeddings=True)
 
-class HybridRetriever:
-    def __init__(self, corpus_path: str, embedding_model: str = "all-MiniLM-L6-v2"):
-        self.chunks = self._load_corpus(corpus_path)
-        self._corpus_texts = [f"{c.title}. {c.text}" for c in self.chunks]
-
-        # Lexical index
-        tokenized = [_tokenize(t) for t in self._corpus_texts]
-        self.bm25 = BM25Okapi(tokenized)
-
-        # Dense index
-        self.embedder = SentenceTransformer(embedding_model)
-        self.embeddings = self.embedder.encode(
-            self._corpus_texts, normalize_embeddings=True, show_progress_bar=False
+    # 2. RRF SQL Query using Common Table Expressions (CTEs)
+    # <#> is the negative inner product operator (ideal for normalized vectors in pgvector)
+    rrf_sql = """
+        WITH dense_search AS (
+            SELECT id, category, title, text,
+                   ROW_NUMBER() OVER (ORDER BY embedding <#> %s ASC) AS dense_rank
+            FROM vgc_knowledge_base
+            LIMIT 20
+        ),
+        lexical_search AS (
+            SELECT id, category, title, text,
+                   ROW_NUMBER() OVER (
+                       ORDER BY ts_rank_cd(search_vector, plainto_tsquery('english', %s)) DESC
+                   ) AS lexical_rank
+            FROM vgc_knowledge_base
+            WHERE search_vector @@ plainto_tsquery('english', %s)
+            LIMIT 20
         )
+        SELECT 
+            COALESCE(d.id, l.id) AS id,
+            COALESCE(d.category, l.category) AS category,
+            COALESCE(d.title, l.title) AS title,
+            COALESCE(d.text, l.text) AS text,
+            (
+                COALESCE(1.0 / (%s + d.dense_rank), 0.0) + 
+                COALESCE(1.0 / (%s + l.lexical_rank), 0.0)
+            ) AS rrf_score
+        FROM dense_search d
+        FULL OUTER JOIN lexical_search l ON d.id = l.id
+        ORDER BY rrf_score DESC
+        LIMIT %s;
+    """
 
-    @staticmethod
-    def _load_corpus(corpus_path: str) -> list["Chunk"]:
-        data = json.loads(Path(corpus_path).read_text())
-        return [Chunk(**d) for d in data]
-
-    def _bm25_ranked_ids(self, query: str, candidate_k: int = 20) -> list[str]:
-        scores = self.bm25.get_scores(_tokenize(query))
-        # Slice top candidates immediately to prevent O(N) downstream sorting
-        top_indices = np.argsort(scores)[::-1][:candidate_k]
-        return [self.chunks[i].id for i in top_indices]
-
-    def _dense_ranked_ids(self, query: str, candidate_k: int = 20) -> list[str]:
-        q_emb = self.embedder.encode([query], normalize_embeddings=True)[0]
-        sims = self.embeddings @ q_emb
-        # Slice top candidates immediately
-        top_indices = np.argsort(sims)[::-1][:candidate_k]
-        return [self.chunks[i].id for i in top_indices]
-
-    @staticmethod
-    def reciprocal_rank_fusion(
-        bm25_ranked_ids: list[str],
-        dense_ranked_ids: list[str],
-        k: int = 60,
-    ) -> dict[str, float]:
-        """
-        score(doc) = sum over rankers of 1 / (k + rank + 1)
-        k=60 dampens the influence of any single ranker's #1 pick, so a
-        document ranked decently by BOTH rankers beats one ranked #1 by
-        only one.
-        """
-        fused_scores: dict[str, float] = {}
-        for rank, doc_id in enumerate(bm25_ranked_ids):
-            fused_scores[doc_id] = fused_scores.get(doc_id, 0.0) + 1.0 / (k + rank + 1)
-        for rank, doc_id in enumerate(dense_ranked_ids):
-            fused_scores[doc_id] = fused_scores.get(doc_id, 0.0) + 1.0 / (k + rank + 1)
-        return fused_scores
-
-    def retrieve(
-        self, 
-        query: str, 
-        top_k: int = 5, 
-        candidate_k: int = 20, 
-        rrf_k: int = 60
-    ) -> list[dict]:
-        bm25_ids = self._bm25_ranked_ids(query, candidate_k=candidate_k)
-        dense_ids = self._dense_ranked_ids(query, candidate_k=candidate_k)
-
-        fused = self.reciprocal_rank_fusion(bm25_ids, dense_ids, k=rrf_k)
-        ranked_ids = sorted(fused, key=lambda d: fused[d], reverse=True)
-
-        id_to_chunk = {c.id: c for c in self.chunks}
-        results = []
-        for doc_id in ranked_ids[:top_k]:
-            c = id_to_chunk[doc_id]
-            results.append(
-                {
-                    "id": c.id,
-                    "category": c.category,
-                    "title": c.title,
-                    "text": c.text,
-                    "fused_score": round(fused[doc_id], 4),
-                }
+    results = []
+    
+    # 3. Check out a warm connection from the pool and execute
+    with pool.connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                rrf_sql, 
+                (
+                    query_vector,       # For dense_search CTE
+                    query,              # For lexical_search ranking
+                    query,              # For lexical_search WHERE filter
+                    RRF_CONSTANT,       # For RRF math (dense)
+                    RRF_CONSTANT,       # For RRF math (lexical)
+                    top_k               # For final limit
+                )
             )
-        return results
+            rows = cur.fetchall()
+
+            for row in rows:
+                results.append({
+                    "id": row[0],
+                    "category": row[1],
+                    "title": row[2],
+                    "text": row[3],
+                    "score": float(row[4])
+                })
+
+    return results
 
 
+# Quick execution block for local debugging
 if __name__ == "__main__":
-    retriever = HybridRetriever(corpus_path="data/corpus.json")
-    for r in retriever.retrieve("how do I beat a rain team", top_k=3):
-        print(f"[{r['fused_score']}] {r['title']}")
+    test_query = "How do I counter Dondozo and Tatsugiri cores?"
+    print(f"\nRunning test query: '{test_query}'...")
+    docs = retrieve(test_query, top_k=3)
+    
+    for idx, doc in enumerate(docs, 1):
+        print(f"\n--- Rank {idx} (RRF Score: {doc['score']:.4f}) ---")
+        print(f"Title: {doc['title']} [{doc['category']}]")
+        print(f"Text: {doc['text'][:150]}...")
