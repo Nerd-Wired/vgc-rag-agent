@@ -6,12 +6,14 @@ into a LangGraph StateGraph in graph.py. Each one calls the Groq API
 directly and stashes token usage into state["_<node>_meta"] so the
 logging_utils.timed_node decorator can report cost per node.
 
-Requires GROQ_API_KEY to be set in the environment.
+Requires GROQ_API_KEY to be set in the environment or Streamlit secrets.
 """
 import json
 import os
+import streamlit as st
 
 from groq import Groq
+from dotenv import load_dotenv
 
 from src.logging_utils import timed_node
 from src.tools import lookup_pokedex_fact
@@ -19,7 +21,16 @@ from src.retriever import retrieve
 
 # Using Llama 3.3 70B for high-speed, high-accuracy reasoning and structured outputs
 MODEL = "llama-3.3-70b-versatile"
-client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+
+load_dotenv()
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+if not GROQ_API_KEY and "GROQ_API_KEY" in st.secrets:
+    GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+
+if not GROQ_API_KEY:
+    raise ValueError("GROQ_API_KEY is missing from environment variables or Streamlit secrets.")
+
+client = Groq(api_key=GROQ_API_KEY)
 
 
 def _call_groq(
@@ -58,6 +69,9 @@ def retriever_node(state: dict) -> dict:
     raw_query = state["query"]
     chat_history = state.get("chat_history", [])
     
+    total_in_tok = 0
+    total_out_tok = 0
+    
     # 1. Condense conversational follow-ups into a standalone search query
     search_query = raw_query
     if chat_history:
@@ -71,8 +85,10 @@ def retriever_node(state: dict) -> dict:
             "Do NOT answer the question, just return the rephrased query text."
         )
         condense_user = f"Chat History:\n{history_text}\n\nFollow-up Question: {raw_query}"
-        search_query, _, _ = _call_groq(condense_system, condense_user, max_tokens=100)
+        search_query, in_tok, out_tok = _call_groq(condense_system, condense_user, max_tokens=100)
         search_query = search_query.strip()
+        total_in_tok += in_tok
+        total_out_tok += out_tok
 
     # 2. TOOL INTENT ROUTING: Ask Llama if we need a structured PokeAPI lookup
     tool_system = (
@@ -80,28 +96,36 @@ def retriever_node(state: dict) -> dict:
         "a specific Pokemon's Base Stats, Typing, Abilities, Speed tier, or whether it can learn a specific move. "
         "Output ONLY a JSON object: {\"needs_tool\": true/false, \"pokemon\": \"name or null\", \"move\": \"move name or null\"}."
     )
-    tool_raw, _, _ = _call_groq(
+    tool_raw, in_tok, out_tok = _call_groq(
         tool_system, f"Query: {search_query}", max_tokens=100, json_mode=True
     )
+    total_in_tok += in_tok
+    total_out_tok += out_tok
     
     tool_chunks = []
     try:
         tool_intent = json.loads(tool_raw)
-        if tool_intent.get("needs_tool") and tool_intent.get("pokemon"):
-            pkmn = tool_intent["pokemon"]
+        if isinstance(tool_intent, dict) and tool_intent.get("needs_tool") and tool_intent.get("pokemon"):
+            pkmn = str(tool_intent["pokemon"]).strip()
             mv = tool_intent.get("move")
-            print(f"⚡ [TOOL CALL FIRED] Querying PokeAPI for: Pokemon={pkmn}, Move={mv}...")
+            if mv:
+                mv = str(mv).strip()
+                if mv.lower() == "null":
+                    mv = None
             
-            # Execute Python tool against live database
-            fact_text = lookup_pokedex_fact(pkmn, move_to_check=mv)
-            
-            # Wrap as a high-priority structured chunk
-            tool_chunks.append({
-                "id": f"pokeapi_tool_{pkmn}",
-                "category": "structured_fact",
-                "title": f"PokeAPI Authoritative Data: {pkmn.capitalize()}",
-                "text": fact_text
-            })
+            if pkmn.lower() != "null":
+                print(f"⚡ [TOOL CALL FIRED] Querying PokeAPI for: Pokemon={pkmn}, Move={mv}...")
+                
+                # Execute Python tool against live API
+                fact_text = lookup_pokedex_fact(pkmn, move_to_check=mv)
+                
+                # Wrap as a high-priority structured chunk
+                tool_chunks.append({
+                    "id": f"pokeapi_tool_{pkmn}",
+                    "category": "structured_fact",
+                    "title": f"PokeAPI Authoritative Data: {pkmn.capitalize()}",
+                    "text": fact_text
+                })
     except Exception as e:
         print(f"⚠️ [TOOL ROUTING SKIP] Could not parse tool intent: {e}")
 
@@ -109,12 +133,14 @@ def retriever_node(state: dict) -> dict:
     top_k = state.get("_retry_count", 0) * 3 + 5
     rag_chunks = retrieve(search_query, top_k=top_k)
     
-    # Merge: Put authoritative tool facts at the very top of the retrieved context!
+    # Merge: Put authoritative tool facts at the very top of retrieved context!
     combined_chunks = tool_chunks + rag_chunks
     
     state["standalone_query"] = search_query
     state["retrieved_chunks"] = combined_chunks
     state["_retriever_meta"] = {
+        "input_tokens": total_in_tok,
+        "output_tokens": total_out_tok,
         "chunks_retrieved": len(combined_chunks), 
         "search_query": search_query,
         "tool_called": len(tool_chunks) > 0
@@ -143,11 +169,10 @@ def reranker_node(state: dict) -> dict:
     raw, in_tok, out_tok = _call_groq(system, user, max_tokens=300, json_mode=True)
     try:
         parsed = json.loads(raw)
-    except json.JSONDecodeError:
-        # Fail conservative, not confident: keep everything (so a real answer
-        # attempt can still happen) but report low confidence so this run is
-        # visibly flagged in the dashboard/eval rather than looking identical
-        # to a genuine 0.5-confidence retrieval.
+        if not isinstance(parsed, dict):
+            raise ValueError("Reranker response is not a valid JSON object.")
+    except Exception:
+        # Fail conservative, not confident: keep everything so a real answer attempt can still happen
         parsed = {"relevant_ids": [c["id"] for c in chunks], "confidence": 0.0, "reason": "parse_failed"}
 
     kept = [c for c in chunks if c["id"] in parsed.get("relevant_ids", [])] or chunks
@@ -167,12 +192,9 @@ def answer_node(state: dict) -> dict:
     """Drafts an answer grounded strictly in the reranked context chunks
     and ongoing conversation history."""
     query = state["query"]
-    chunks = state["reranked_chunks"]
+    chunks = state.get("reranked_chunks", state.get("retrieved_chunks", []))
     chat_history = state.get("chat_history", [])
 
-    # Tag each chunk with its id so the model can cite a specific source and
-    # so the validator (and a human reading logs) can trace a claim back to
-    # the exact chunk it came from, instead of comparing prose to prose.
     context = "\n".join(f"[{c['id']}] {c['text']}" for c in chunks)
 
     # Format last few messages for conversational context
@@ -196,8 +218,6 @@ def answer_node(state: dict) -> dict:
     )
     user = f"{history_str}Context:\n{context}\n\nLatest Question: {query}"
 
-    # Raised from 400: strategy/counter-play answers routinely need more room
-    # than a single rules lookup, and were likely getting cut off before.
     answer, in_tok, out_tok = _call_groq(system, user, max_tokens=700)
 
     state["draft_answer"] = answer
@@ -209,7 +229,8 @@ def answer_node(state: dict) -> dict:
 def validator_node(state: dict) -> dict:
     """Checks the draft answer is grounded in context (no hallucinated claims).
     If not grounded, routes back to the retriever with a widened query."""
-    context = "\n".join(f"[{c['id']}] {c['text']}" for c in state["reranked_chunks"])
+    chunks = state.get("reranked_chunks", state.get("retrieved_chunks", []))
+    context = "\n".join(f"[{c['id']}] {c['text']}" for c in chunks)
     answer = state["draft_answer"]
 
     system = (
@@ -225,20 +246,17 @@ def validator_node(state: dict) -> dict:
     raw, in_tok, out_tok = _call_groq(system, user, max_tokens=250, json_mode=True)
     try:
         parsed = json.loads(raw)
-    except json.JSONDecodeError:
-        # Fail CLOSED, not open: this is the one place the whole graph relies
-        # on to catch hallucination. If the validator itself breaks (bad
-        # JSON), the old behavior silently trusted the unverified answer,
-        # which defeats the point of having a validator at all. Treating a
-        # parse failure as "not grounded" instead routes back through the
-        # existing retry loop, same as a genuine failed validation.
+        if not isinstance(parsed, dict):
+            raise ValueError("Validator response is not a valid JSON object.")
+    except Exception:
+        # Fail CLOSED: if validator output fails parsing, treat as unverified and retry
         parsed = {
             "grounded": False,
             "confidence": 0.0,
             "unsupported_claims": ["validator_parse_failed"],
         }
 
-    is_grounded = parsed.get("grounded", True)
+    is_grounded = bool(parsed.get("grounded", False))
     state["is_grounded"] = is_grounded
     state["validation_confidence"] = parsed.get("confidence", 0.5)
     state["unsupported_claims"] = parsed.get("unsupported_claims", [])

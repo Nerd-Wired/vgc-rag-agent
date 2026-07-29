@@ -10,11 +10,14 @@ import numpy as np
 from pgvector.psycopg import register_vector
 from psycopg_pool import ConnectionPool
 from sentence_transformers import SentenceTransformer
+import streamlit as st
 
 # Load environment variables
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL and "DATABASE_URL" in st.secrets:
+    DATABASE_URL = st.secrets["DATABASE_URL"]
 # bge-small-en-v1.5 instead of all-MiniLM-L6-v2: same 384 dimensions (no
 # schema change needed) but noticeably better at short, jargon-heavy queries
 # like "Sitrus Berry", "Sucker Punch", "Tera Type" than a general-purpose
