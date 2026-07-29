@@ -18,6 +18,7 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL and "DATABASE_URL" in st.secrets:
     DATABASE_URL = st.secrets["DATABASE_URL"]
+
 # bge-small-en-v1.5 instead of all-MiniLM-L6-v2: same 384 dimensions (no
 # schema change needed) but noticeably better at short, jargon-heavy queries
 # like "Sitrus Berry", "Sucker Punch", "Tera Type" than a general-purpose
@@ -32,26 +33,37 @@ EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"
 BGE_QUERY_PREFIX = "Represent this sentence for searching relevant passages: "
 RRF_CONSTANT = 60
 
-# 1. Initialize Global Resources (Loaded once at server startup)
+# 1. Initialize DB URL check
 if not DATABASE_URL:
-    raise ValueError("DATABASE_URL is missing from environment variables.")
+    raise ValueError("DATABASE_URL is missing from environment variables or Streamlit secrets.")
 
-print(f"[{__name__}] Initializing embedding model: {EMBEDDING_MODEL}...")
-embedder = SentenceTransformer(EMBEDDING_MODEL)
 
-# Define the adapter registration callback BEFORE creating the pool
-def _configure_connection(conn):
-    register_vector(conn)
+# 2. Cache the embedding model so it only loads once per container lifetime
+@st.cache_resource
+def get_embedding_model():
+    print(f"[{__name__}] Initializing embedding model: {EMBEDDING_MODEL}...")
+    return SentenceTransformer(EMBEDDING_MODEL)
 
-print(f"[{__name__}] Initializing PostgreSQL connection pool...")
-# Pass the configure callback directly into the constructor
-pool = ConnectionPool(
-    conninfo=DATABASE_URL,
-    min_size=1,
-    max_size=10,
-    configure=_configure_connection, 
-    kwargs={"autocommit": True}
-)
+
+# 3. Cache the DB Connection Pool so Streamlit re-runs reuse the same pool
+@st.cache_resource
+def get_db_pool():
+    print(f"[{__name__}] Initializing PostgreSQL connection pool...")
+    
+    def _configure_connection(conn):
+        register_vector(conn)
+
+    return ConnectionPool(
+        conninfo=DATABASE_URL,
+        min_size=1,
+        max_size=5,          # Safe limit for Supabase free/starter tier
+        timeout=10.0,        # Fail fast in 10s instead of waiting 30s
+        max_idle=300.0,      # Close sockets idle for > 5 minutes
+        max_lifetime=1800.0, # Recycle sockets older than 30 minutes
+        configure=_configure_connection,
+        kwargs={"autocommit": True},
+        open=True,
+    )
 
 
 def retrieve(query: str, top_k: int = 5) -> List[Dict[str, Any]]:
@@ -67,6 +79,9 @@ def retrieve(query: str, top_k: int = 5) -> List[Dict[str, Any]]:
     """
     if not query.strip():
         return []
+
+    embedder = get_embedding_model()
+    pool = get_db_pool()
 
     # 1. Generate query embedding (384-dimensional unit-normalized vector)
     query_vector = embedder.encode(BGE_QUERY_PREFIX + query, normalize_embeddings=True)
