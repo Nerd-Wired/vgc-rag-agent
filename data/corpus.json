@@ -286,5 +286,161 @@
     "category": "strategy",
     "title": "Tailwind vs Trick Room speed control",
     "text": "Tailwind and Trick Room solve the same underlying problem, controlling who moves first, in opposite ways: Tailwind doubles your own team's Speed for 4 turns, favoring teams that are already moderately fast, while Trick Room fully reverses turn order for 5 turns, favoring teams built around slow, bulky attackers. If both sides set Tailwind, the relative Speed advantage cancels out since both teams are doubled equally; if Trick Room is active, a Tailwind-boosted Speed value is still inverted by Trick Room's ordering, so the two effects do not simply cancel each other the way mirrored Tailwind does."
+  },
+  {
+    "id": "garchomp_profile",
+    "category": "notable_pokemon_profile",
+    "title": "Garchomp",
+    "text": "Garchomp is the single most-used Pokemon in Regulation M-B. It is Dragon/Ground type with the ability Rough Skin (damages any Pokemon that hits it with a contact move) as its standard option, though some sets run Sand Veil for evasion on Sand teams. Its stat spread favors Attack and Speed (base 108/130/95/80/85/102), making it a fast physical attacker that outspeeds most of the unboosted metagame while still hitting hard. Its signature move is Earthquake, a spread Ground-type attack, backed up by Dragon-type STAB like Outrage or Dragon Claw and coverage options like Stone Edge or Fire Fang. Common held items include Life Orb (for maximum damage output), Choice Scarf (to outrun faster threats and guarantee a KO), Sitrus Berry, or a Roseli Berry to blunt an incoming Fairy-type attack, since Roseli specifically resists Fairy-type moves and Garchomp is otherwise weak to them as a Dragon-type. Garchomp is valued as a flexible physical attacker that fits into almost any team archetype, from the Mega Charizard Y 'Big Six' offense core to slower Sand or Trick Room builds, which is a major reason for its dominant usage rate."
+  },
+  {
+    "id": "kingambit_profile",
+    "category": "notable_pokemon_profile",
+    "title": "Kingambit",
+    "text": "Kingambit is a Dark/Steel type and one of the format's most-used late-game cleaners. Its ability Supreme Overlord boosts its attacking moves' power based on how many of its teammates have already fainted, making it hit progressively harder as a match goes on, which is why it is typically saved for the back half of a game rather than led with. Its signature move is Sucker Punch, a priority Dark-type attack that only succeeds if the target is about to use a damaging move that turn (see mech_013 on priority mechanics); this makes it a genuine prediction tool rather than a guaranteed KO, since opponents can play around it with Protect, a status move, or a well-timed switch. Common items are Black Glasses (boosting Dark-type move power directly) or Focus Sash (guaranteeing Kingambit survives a hit at full HP so it can guarantee its own Sucker Punch lands afterward). Kingambit's typing gives it a Fighting-type weakness and it is walled defensively by Pokemon like Mega Mawile, whose Steel/Fairy typing resists Sucker Punch outright."
+  },
+  {
+    "id": "incineroar_profile",
+    "category": "notable_pokemon_profile",
+    "title": "Incineroar",
+    "text": "Incineroar is a Fire/Dark type support and pivot Pokemon with the ability Intimidate (see mech_006), lowering the Attack of both opposing Pokemon on switch-in. Its signature move is Parting Shot, which lowers the target's Attack and Special Attack by one stage each and then switches Incineroar out for a teammate, letting it apply Intimidate-style pressure twice (once on entry, once via Parting Shot) while bringing in a more favorable attacker at no tempo cost. It also commonly carries Fake Out (see mech_007) for a turn-one flinch, making an Incineroar lead into a Fake Out plus Intimidate core in its own right (see strat_004). Because of this support toolkit, Incineroar fits into nearly any team archetype as a pivot and momentum tool rather than a dedicated sweeper, which is a major reason for its consistently high usage across very different team styles in Regulation M-B."
+  },
+  {
+    "id": "whimsicott_profile",
+    "category": "notable_pokemon_profile",
+    "title": "Whimsicott",
+    "text": "Whimsicott is a Grass/Fairy type support Pokemon and the primary speed-control tool behind the format's dominant Mega Charizard Y 'Big Six' archetype (see megaupdate_001 and strat_005). Its ability Prankster (see mech_012) grants its non-damaging moves priority, letting it reliably set Tailwind (see mech_011) before faster threats can react even on a team that is not naturally fast. It commonly holds Focus Sash to guarantee it survives an incoming hit at full HP and still gets to act, which matters specifically against priority moves like Fake Out that would otherwise threaten it before its own Prankster priority resolves. Beyond Tailwind, Whimsicott also functions as a secondary attacker with Fairy Feather or Moonblast and can disrupt opposing setup with Taunt, which is particularly effective at shutting down an opposing Trick Room setter or redirection user before it can act (see strat_003 and mech_010). A fast Prankster user of its own, or simply pressuring Whimsicott out before its first turn resolves, removes the entire speed-control plan behind a team built around it."
+  },
+  {
+    "id": "basculegion_profile",
+    "category": "notable_pokemon_profile",
+    "title": "Basculegion",
+    "text": "Basculegion is a Water/Ghost type physical attacker commonly used as the endgame cleaner on 'Big Six'-style hyper offense teams (see strat_005). Its signature move is Last Respects, a Ghost-type attack that grows more powerful for every one of the user's own fainted teammates, meaning Basculegion's damage output scales up over the course of a match rather than staying fixed, similar in concept to Kingambit's Supreme Overlord. It commonly holds a Choice Scarf, since being locked into Last Respects is rarely a downside once several teammates have already fainted, or Life Orb for a more flexible set. As a Water/Ghost type it is immune to Normal and Fighting-type attacks via its Ghost typing while also resisting Fire, Water, and Ice via its dual typing, though it remains weak to Grass- and Dark-type coverage moves. Basculegion is typically held back until mid-to-late game specifically to maximize the Last Respects damage boost, rather than being led with."
+  },
+  {
+    "id": "farigiraf_profile",
+    "category": "notable_pokemon_profile",
+    "title": "Farigiraf",
+    "text": "Farigiraf is a Normal/Psychic type support Pokemon valued primarily for its ability Armor Tail, which prevents priority moves from being used against Farigiraf or its ally at all for as long as it is on the field, functioning as an always-on version of the move Quick Guard (see mech_008 for the general Protect-family category). This makes it a strong answer to priority-reliant threats like Kingambit's Sucker Punch or Fake Out leads. It is also flexible on speed control, able to run Trick Room itself or support a Tailwind-based team depending on the build, and its bulky Normal/Psychic typing lets it switch into and threaten Fighting-type attackers reasonably well. Farigiraf appears heavily on the Mega Aerodactyl plus Mega Charizard Y variant of the 'Big Six' archetype that placed both first and second at the 2026 North America International Championships (see strat_005), where its always-on priority immunity protects the team's Mega Evolutions and glass-cannon attackers during the turns they are most vulnerable."
+  },
+  {
+    "id": "sylveon_profile",
+    "category": "notable_pokemon_profile",
+    "title": "Sylveon",
+    "text": "Sylveon is a Fairy-type support and special attacker with the ability Pixilate, which converts its Normal-type moves into Fairy-type and boosts their power, most notably turning Hyper Voice into a strong spread Fairy-type attack. Its Fairy typing provides a full immunity to Dragon-type moves and resistance to Fighting- and Dark-type attacks, making it a reliable answer to Dragon-type sweepers like rival Garchomp and to Dark-type threats like Kingambit. Sylveon commonly carries support options such as Calm Mind to boost its own special attacking stats over multiple turns, or protective items like Sitrus Berry or an Assault Vest for extra special bulk (see mech_015 on common held items) at the cost of losing access to non-damaging moves. It is typically played as a bulky special attacker and Dragon/Dark answer within a broader team rather than as a standalone sweeper."
+  },
+  {
+    "id": "archaludon_profile",
+    "category": "notable_pokemon_profile",
+    "title": "Archaludon",
+    "text": "Archaludon is a Steel/Dragon type bulky support and attacker, most notable as the anchor of the format's most repeated three-Pokemon core alongside Pelipper and Mega Swampert on Rain teams (see strat_001 and strat_002). Its Steel/Dragon typing grants a wide range of resistances, including to Fairy-type moves (which would otherwise threaten most Dragon-types) via its Steel secondary typing, making it an unusually safe defensive Dragon-type. It commonly carries Electro Shot, a Special Attack-boosting Electric-type move, alongside Steel and Dragon STAB options, and can run support moves like Body Press or screens depending on the build. Its combination of bulk, useful resistances, and a rain-boosted Electric-type attack (Electro Shot's accuracy is guaranteed in Rain) is why it is one of the defining pieces of the format's Rain archetype rather than a standalone offensive threat."
+  },
+  {
+    "id": "sinistcha_profile",
+    "category": "notable_pokemon_profile",
+    "title": "Sinistcha",
+    "text": "Sinistcha is a Grass/Ghost type support Pokemon and, at various points, the single most-used Pokemon in Regulation M-B, appearing across radically different team archetypes including Mono-Ghost Hyper Offense, Rain Offense, Sand Balance, and Trick Room flex builds. Its Grass/Ghost typing grants immunity to Normal- and Fighting-type moves and resistance to Water, Electric, Grass, and Ground attacks, while its ability Hospitality heals an ally a portion of their max HP the instant Sinistcha switches in, reinforcing its role as the format's premier healing and support glue. As a lead, its two most common turn-one choices are Rage Powder, to redirect single-target spread damage away from a fragile Mega Evolution and guarantee it survives to attack (see mech_010), or Trick Room, to flip turn order in favor of slower, bulkier teammates against an offensive-leaning opposing lead (see mech_003). Because Rage Powder and Trick Room require Sinistcha to act safely on its own entry turn, opponents commonly try to Taunt or otherwise disrupt it before it can resolve either option."
+  },
+  {
+    "id": "mega_charizard",
+    "category": "mega_evolution_profile",
+    "title": "Mega Charizard X and Y",
+    "text": "Charizard has two distinct Mega Evolutions available in Regulation M-B, using different Mega Stones. Mega Charizard Y is Fire/Flying and gains the ability Drought on Mega Evolving, automatically setting Sun and boosting its own Fire-type moves (such as Heat Wave or Flamethrower) while weakening Water-type moves format-wide, making it both a strong attacker and a hard direct counter to Rain teams (see strat_005). Mega Charizard X is Fire/Dragon and instead gains the ability Tough Claws, boosting the power of its contact moves, making it a more purely offensive physical/mixed attacker without the team-wide weather effect; it trades Charizard Y's team-support utility for higher raw individual damage output via moves like Dragon Claw and Flare Blitz. Because a team can only Mega Evolve one Pokemon per battle regardless of how many Mega-capable Pokemon it carries, some teams pack both Charizard Mega Stones as tech options at Team Preview to keep the opponent guessing about which version, and therefore which weather or attacking style, they will actually commit to that game. Mega Charizard Y is by a wide margin the more commonly played of the two due to its central role in the 'Big Six' archetype."
+  },
+  {
+    "id": "mega_aerodactyl",
+    "category": "mega_evolution_profile",
+    "title": "Mega Aerodactyl",
+    "text": "Mega Aerodactyl is a Rock/Flying type Mega Evolution valued primarily for its ability Unnerve, which prevents both opposing Pokemon from consuming their held Berries — including Sitrus Berry recovery — for as long as Aerodactyl remains on the field. This passive disruption frequently swings close damage races that would otherwise fall just short of a KO, since the opponent cannot heal back the HP they would normally recover. Beyond that, Mega Aerodactyl is naturally very fast and commonly carries Tailwind support alongside Rock Slide for spread flinch pressure, making it a strong alternative or complementary Mega alongside Mega Charizard Y. It is a core piece of the Mega Aerodactyl plus Mega Charizard Y 'Big Six' variant, alongside Farigiraf and Focus Sash Kingambit, that took first and second place at the 2026 North America International Championships (see strat_005 and farigiraf_profile)."
+  },
+  {
+    "id": "mega_tyranitar",
+    "category": "mega_evolution_profile",
+    "title": "Mega Tyranitar",
+    "text": "Mega Tyranitar is a Rock/Dark type Mega Evolution and the centerpiece of the format's Sand Balance archetype. Its ability Sand Stream sets a Sandstorm that chips down non-Rock/Ground/Steel-type opponents every turn while also boosting Tyranitar's own Special Defense while the Sandstorm is active. It is notably bulky for an offensive Mega, able to take hits from a wide range of attackers while still hitting hard with Rock- and Dark-type STAB moves such as Rock Slide and Crunch. Sand teams built around Mega Tyranitar tend to play a longer, attrition-based game than the format's faster hyper-offense builds, often pairing it with Sinistcha for healing support to offset the team's own passive Sandstorm chip damage (see sinistcha_profile)."
+  },
+  {
+    "id": "mega_gyarados",
+    "category": "mega_evolution_profile",
+    "title": "Mega Gyarados",
+    "text": "Mega Gyarados is a Water/Dark type Mega Evolution with the ability Mold Breaker, which lets its moves ignore the target's ability when calculating their effects — for example, bypassing an opposing Pokemon's Intimidate-immune or damage-reducing abilities. It trades Gyarados' base Flying-type secondary typing for Dark-type upon Mega Evolving, which removes its former Electric-type weakness but introduces a weakness to Fairy- and Bug-type moves instead. It is typically played as a bulky physical attacker with strong Water-type STAB, benefiting from Rain support the same way other Water-types do, though it is not itself a rain-setter."
+  },
+  {
+    "id": "mega_kangaskhan",
+    "category": "mega_evolution_profile",
+    "title": "Mega Kangaskhan",
+    "text": "Mega Kangaskhan is a Normal-type Mega Evolution with the signature ability Parental Bond, which causes most of its moves to hit twice in a single turn, with the second hit dealing reduced damage. This effectively doubles its damage output turn over turn compared to a single-hit attacker of similar power, and also means moves with secondary effects (such as a flinch chance) get two independent chances to trigger. It is commonly built as a fast physical attacker using Fake Out (see mech_007) on the turn it enters, benefiting doubly from Parental Bond on the Fake Out itself in some rulesets, followed by hard-hitting Normal-type or coverage STAB moves."
+  },
+  {
+    "id": "mega_lucario",
+    "category": "mega_evolution_profile",
+    "title": "Mega Lucario",
+    "text": "Mega Lucario is a Fighting/Steel type Mega Evolution with the ability Adaptability, which boosts the power of its same-type attack moves beyond the normal same-type-attack-bonus multiplier. Combined with strong Attack and Special Attack stats, this makes its Fighting- and Steel-type STAB moves, such as Close Combat and Meteor Mash, hit exceptionally hard. Its Fighting/Steel typing gives it a notable weakness to Fire-, Fighting-, and Ground-type coverage despite its many resistances, and it is commonly played as a fast wallbreaker (see strat_006 for the general 'wallbreaker' team-building role) that aims to remove bulky answers early in a match before they can wear it down."
+  },
+  {
+    "id": "mega_gengar",
+    "category": "mega_evolution_profile",
+    "title": "Mega Gengar",
+    "text": "Mega Gengar is a Ghost/Poison type Mega Evolution with the ability Shadow Tag, which prevents opposing Pokemon from switching out while Gengar is on the field (with a small number of exceptions, such as other Ghost-type Pokemon). This trapping effect is Mega Gengar's core strategic value: it can lock a specific opposing threat in place and then either set up freely or force a fight it is favored to win, since the trapped Pokemon cannot retreat to a safer matchup. Its Ghost/Poison typing gives it full immunity to Normal- and Fighting-type moves, though it remains fragile defensively overall and is commonly played around dedicated Trick Room or redirection support to protect it on the turn it enters."
+  },
+  {
+    "id": "mega_alakazam",
+    "category": "mega_evolution_profile",
+    "title": "Mega Alakazam",
+    "text": "Mega Alakazam is a Psychic-type Mega Evolution with the ability Trace, which copies the ability of an adjacent opposing Pokemon on switch-in, letting it temporarily gain useful abilities like an opponent's Intimidate or Drizzle. It has extremely high Speed and Special Attack but very low physical bulk, making it a classic 'glass cannon' special attacker that aims to outspeed and knock out a target before it can act, rather than trade hits. Because of its fragility, it is commonly protected by redirection support (see mech_010) on the turn it Mega Evolves, or paired with Trick Room-countering speed control so it retains its natural Speed advantage."
+  },
+  {
+    "id": "mega_gardevoir",
+    "category": "mega_evolution_profile",
+    "title": "Mega Gardevoir",
+    "text": "Mega Gardevoir is a Psychic/Fairy type Mega Evolution with the ability Pixilate, converting its Normal-type moves into Fairy-type and boosting their power, similarly to Sylveon (see sylveon_profile). Its Psychic/Fairy typing and generally bulky special stats make it a strong special attacker and support hybrid, commonly running Trick Room itself or support moves like Follow Me (see mech_010) alongside offensive Psychic- and Fairy-type STAB. Its dual typing gives it a notable weakness to Steel-type coverage and to Ghost-type moves via its Psychic typing, but reliable resistance to Fighting- and Dragon-type attacks."
+  },
+  {
+    "id": "mech_013",
+    "category": "mechanics",
+    "title": "Priority moves and Sucker Punch",
+    "text": "Priority moves act before or after the normal Speed-based turn order, grouped into priority 'brackets' — for example, Fake Out and Extreme Speed both have positive priority and act before regular moves within the same turn. Sucker Punch (used by Kingambit, see kingambit_profile) is a priority move that only succeeds if the target is about to use a damaging move that same turn; if the target instead uses a status move, Protect, or switches out, Sucker Punch fails outright. This makes Sucker Punch a genuine prediction tool rather than a guaranteed cleanup move, and is why some Kingambit sets run Focus Sash specifically to survive a hit and guarantee a follow-up Sucker Punch lands on the correct read next turn."
+  },
+  {
+    "id": "mech_014",
+    "category": "mechanics",
+    "title": "Common held items in Doubles (Focus Sash, Life Orb, Assault Vest, Choice items, Sitrus Berry)",
+    "text": "Focus Sash guarantees the holder survives an attack that would otherwise knock it out from full HP, leaving it at 1 HP instead; this is especially valuable on fast, fragile support Pokemon like Whimsicott that need to guarantee they act even against priority moves. Life Orb boosts the power of all of the holder's attacking moves at the cost of recoil damage on each hit, favoring aggressive attackers over long defensive games. Assault Vest boosts a Pokemon's special Defense significantly but prevents it from using any status or non-damaging move, trading flexibility for raw special bulk. Choice Scarf, Choice Band, and Choice Specs each lock the holder into its first selected move until it switches out, in exchange for a 1.5x boost to Speed, physical Attack, or special Attack respectively; Choice Scarf in particular is common on Pokemon with an otherwise clear best move, letting them outrun and pick off threats that would normally out-speed them. Sitrus Berry restores 25% of a Pokemon's max HP once it drops to 50% or below, giving bulkier support Pokemon extra staying power against the spread damage common in Doubles."
+  },
+  {
+    "id": "mech_015",
+    "category": "mechanics",
+    "title": "EVs, natures, and speed tiers (general concept)",
+    "text": "Every Pokemon in official VGC play is auto-leveled to 50 (see rules_002), which means Effort Values (EVs, up to 508 total across all six stats, 252 max per stat) and a Pokemon's Nature (which boosts one stat by 10% and lowers another by 10%) are what actually separate two copies of the same species from each other competitively, not level. A 'speed tier' refers to the specific Speed stat value a Pokemon reaches after EV and Nature investment, which matters because Doubles turn order is determined by comparing these final Speed values (modified further by field effects like Trick Room or Tailwind). Players commonly build a Pokemon's Speed EVs specifically to reach a value just above a known common threat, so as to move first against it in a neutral matchup, rather than maximizing Speed by default, since points not spent on Speed can instead go toward bulk or offense."
+  },
+  {
+    "id": "mech_016",
+    "category": "mechanics",
+    "title": "Team Preview and lead selection",
+    "text": "Before a Double Battle begins, both players see all six of the opponent's team during Team Preview and then choose which four Pokemon to bring for that game and, critically, which two to lead with. Lead selection is one of the most consequential decisions in a match: leads set the tone by establishing a field condition immediately (Trick Room, Tailwind, weather), applying immediate pressure (a Fake Out plus Intimidate core, see mech_006 and mech_007), or playing more defensively to scout the opponent's actual set before committing a Mega Evolution. Because both players select leads simultaneously without seeing the opponent's choice, predicting the opponent's likely game plan from their revealed six-Pokemon roster is a core skill, and a mismatched lead selection can put a player behind before the first turn is even played."
+  },
+  {
+    "id": "strat_011",
+    "category": "strategy",
+    "title": "Sun archetype in Regulation M-B",
+    "text": "Sun teams are built around a Drought setter, most commonly Mega Charizard Y (see mega_charizard and mech_005), which automatically sets Sun on Mega Evolving and boosts Fire-type moves while weakening Water-type moves for the rest of the battle. Because Charizard Y also anchors the format's dominant 'Big Six' hyper-offense archetype (see strat_005), a dedicated Sun build and 'Big Six' overlap heavily in practice; the distinguishing feature of a more Sun-focused build is leaning further into other sun-benefiting attackers, such as Chlorophyll-boosted Grass-types that gain doubled Speed in Sun, rather than the standard Whimsicott-Tailwind-plus-Fairy-support shell. Sun functions as a hard, direct counter to standard Rain teams, since a Drought setter entering after an active Rain field overrides it outright, flipping the weather war and turning the opposing Rain sweepers' boosted Water-type attacks weak instead."
+  },
+  {
+    "id": "strat_012",
+    "category": "strategy",
+    "title": "Sand Balance archetype in Regulation M-B",
+    "text": "Sand Balance is a slower, attrition-focused archetype built around Mega Tyranitar's Sand Stream (see mega_tyranitar), which chips down non-Rock/Ground/Steel-type opponents every turn while boosting Tyranitar's own Special Defense. Sinistcha (see sinistcha_profile) frequently partners with Sand cores as the team's redirector and healer, offsetting the passive Sandstorm damage the team's own non-immune members take each turn. Sand teams generally play a longer game than the format's faster hyper-offense builds, leaning on residual chip damage, bulky Mega Evolutions, and reliable defensive typing to wear an opponent's HP totals down over several turns rather than looking for an immediate knockout, which makes them a natural check to teams that lack their own reliable recovery."
+  },
+  {
+    "id": "strat_013",
+    "category": "strategy",
+    "title": "Countering Garchomp, Kingambit, and Sylveon specifically",
+    "text": "Against Garchomp (see garchomp_profile), Ice- and Fairy-type coverage moves and bulky Water- or Grass-types that resist Ground-type attacks are the most reliable answers; note that a Roseli Berry set specifically blunts Fairy-type retaliation, so a player should scout Garchomp's held item across a set before assuming a Fairy-type attack will land cleanly. Against Kingambit (see kingambit_profile), Fighting-type attackers, or any Pokemon fast enough to knock it out before it can click Sucker Punch, reduce its threat significantly; Quick Guard (see mech_008) blocks Sucker Punch outright regardless of prediction, and Mega Mawile's Steel/Fairy typing resists it defensively. Against Sylveon (see sylveon_profile), Poison- and Steel-type coverage moves bypass its Fairy typing's usual resistances, and since it commonly runs Assault Vest rather than a recovery item, sustained pressure over multiple turns is generally more effective than trying to remove it in one hit."
+  },
+  {
+    "id": "strat_014",
+    "category": "strategy",
+    "title": "Countering the 'Big Six' Mega Charizard Y archetype",
+    "text": "Because the 'Big Six' archetype (see strat_005) depends on Whimsicott successfully setting Tailwind on turn one (see whimsicott_profile and mech_012), disrupting that specific turn is the single highest-value point of attack: a faster Prankster user with Taunt, or simply enough turn-one pressure to threaten Whimsicott before its Prankster-boosted move resolves, can unravel the team's entire speed-control plan before it starts. Rock- and Water-type attackers that resist Mega Charizard Y's boosted Fire-type STAB are valuable secondary answers, and Dragon-types like rival Garchomp resist its Heat Wave outright. Because the archetype's damage plan leans heavily on spread moves (Heat Wave, Earthquake) to soften both opposing Pokemon before a single-target finisher, Wide Guard (see mech_008) is an effective defensive tool against it specifically, buying a turn to stabilize before Kingambit or Basculegion can clean up weakened targets."
   }
 ]

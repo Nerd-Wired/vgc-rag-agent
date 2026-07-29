@@ -17,10 +17,12 @@ from pathlib import Path
 LOG_PATH = Path(__file__).resolve().parent.parent / "logs" / "run_log.jsonl"
 LOG_PATH.parent.mkdir(exist_ok=True)
 
-# Anthropic Claude Sonnet pricing (approximate, per 1M tokens) — update as needed.
-# Kept as constants so cost tracking is transparent and easy to tune.
-PRICE_PER_1M_INPUT = 3.00
-PRICE_PER_1M_OUTPUT = 15.00
+# Groq pricing for llama-3.3-70b-versatile (the model actually called in
+# src/agents.py), per 1M tokens as of mid-2026. Kept as constants so cost
+# tracking is transparent and easy to tune — update if you change MODEL
+# in src/agents.py or Groq revises pricing.
+PRICE_PER_1M_INPUT = 0.59
+PRICE_PER_1M_OUTPUT = 0.79
 
 
 def estimate_cost(input_tokens: int, output_tokens: int) -> float:

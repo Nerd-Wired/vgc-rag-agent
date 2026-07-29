@@ -22,8 +22,21 @@ MODEL = "llama-3.3-70b-versatile"
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 
-def _call_groq(system: str, user: str, max_tokens: int = 500) -> tuple[str, int, int]:
-    """Helper to execute chat completions via Groq and return tokens used."""
+def _call_groq(
+    system: str, user: str, max_tokens: int = 500, json_mode: bool = False
+) -> tuple[str, int, int]:
+    """Helper to execute chat completions via Groq and return tokens used.
+
+    json_mode=True sets response_format to force valid JSON output from the
+    model, instead of just asking nicely in the prompt. This is what actually
+    keeps json.loads() from throwing downstream — the prompt saying "output
+    ONLY JSON" is a suggestion the model can still ignore under load; the
+    response_format constraint is enforced by the API.
+    """
+    kwargs = {}
+    if json_mode:
+        kwargs["response_format"] = {"type": "json_object"}
+
     resp = client.chat.completions.create(
         model=MODEL,
         max_tokens=max_tokens,
@@ -31,6 +44,7 @@ def _call_groq(system: str, user: str, max_tokens: int = 500) -> tuple[str, int,
             {"role": "system", "content": system},
             {"role": "user", "content": user},
         ],
+        **kwargs,
     )
     text = resp.choices[0].message.content
     return text, resp.usage.prompt_tokens, resp.usage.completion_tokens
@@ -66,7 +80,9 @@ def retriever_node(state: dict) -> dict:
         "a specific Pokemon's Base Stats, Typing, Abilities, Speed tier, or whether it can learn a specific move. "
         "Output ONLY a JSON object: {\"needs_tool\": true/false, \"pokemon\": \"name or null\", \"move\": \"move name or null\"}."
     )
-    tool_raw, _, _ = _call_groq(tool_system, f"Query: {search_query}", max_tokens=100)
+    tool_raw, _, _ = _call_groq(
+        tool_system, f"Query: {search_query}", max_tokens=100, json_mode=True
+    )
     
     tool_chunks = []
     try:
@@ -124,11 +140,15 @@ def reranker_node(state: dict) -> dict:
     )
     user = f"Question: {query}\n\nPassages:\n{chunk_list}"
 
-    raw, in_tok, out_tok = _call_groq(system, user, max_tokens=300)
+    raw, in_tok, out_tok = _call_groq(system, user, max_tokens=300, json_mode=True)
     try:
         parsed = json.loads(raw)
     except json.JSONDecodeError:
-        parsed = {"relevant_ids": [c["id"] for c in chunks], "confidence": 0.5, "reason": "parse_failed"}
+        # Fail conservative, not confident: keep everything (so a real answer
+        # attempt can still happen) but report low confidence so this run is
+        # visibly flagged in the dashboard/eval rather than looking identical
+        # to a genuine 0.5-confidence retrieval.
+        parsed = {"relevant_ids": [c["id"] for c in chunks], "confidence": 0.0, "reason": "parse_failed"}
 
     kept = [c for c in chunks if c["id"] in parsed.get("relevant_ids", [])] or chunks
 
@@ -149,9 +169,12 @@ def answer_node(state: dict) -> dict:
     query = state["query"]
     chunks = state["reranked_chunks"]
     chat_history = state.get("chat_history", [])
-    
-    context = "\n".join(f"- {c['text']}" for c in chunks)
-    
+
+    # Tag each chunk with its id so the model can cite a specific source and
+    # so the validator (and a human reading logs) can trace a claim back to
+    # the exact chunk it came from, instead of comparing prose to prose.
+    context = "\n".join(f"[{c['id']}] {c['text']}" for c in chunks)
+
     # Format last few messages for conversational context
     history_str = ""
     if chat_history:
@@ -162,13 +185,20 @@ def answer_node(state: dict) -> dict:
 
     system = (
         "You are a VGC (Pokemon competitive doubles) assistant. Answer the "
-        "user's question using ONLY the provided context. If the context is "
-        "insufficient, say so explicitly rather than guessing. Be concise and "
-        "concrete — this is for a competitive player, not a general audience."
+        "user's question using ONLY the provided context, which is a list of "
+        "chunks each prefixed with a bracketed [chunk_id]. After any claim "
+        "that comes from a specific chunk, cite it inline like [chunk_id]. "
+        "If the context is insufficient, say so explicitly rather than "
+        "guessing. Be concise and concrete — this is for a competitive "
+        "player, not a general audience. Strategic questions (archetypes, "
+        "counter-play, team building) deserve a fuller answer than a simple "
+        "rules lookup; don't artificially truncate a multi-part explanation."
     )
     user = f"{history_str}Context:\n{context}\n\nLatest Question: {query}"
 
-    answer, in_tok, out_tok = _call_groq(system, user, max_tokens=400)
+    # Raised from 400: strategy/counter-play answers routinely need more room
+    # than a single rules lookup, and were likely getting cut off before.
+    answer, in_tok, out_tok = _call_groq(system, user, max_tokens=700)
 
     state["draft_answer"] = answer
     state["_answer_meta"] = {"input_tokens": in_tok, "output_tokens": out_tok}
@@ -179,22 +209,34 @@ def answer_node(state: dict) -> dict:
 def validator_node(state: dict) -> dict:
     """Checks the draft answer is grounded in context (no hallucinated claims).
     If not grounded, routes back to the retriever with a widened query."""
-    context = "\n".join(f"- {c['text']}" for c in state["reranked_chunks"])
+    context = "\n".join(f"[{c['id']}] {c['text']}" for c in state["reranked_chunks"])
     answer = state["draft_answer"]
 
     system = (
-        "You are a groundedness validator. Given context and a draft answer, "
-        'output ONLY JSON: {"grounded": true/false, "confidence": 0-1, '
+        "You are a groundedness validator. Given context chunks (each "
+        "prefixed with a bracketed [chunk_id]) and a draft answer, output "
+        'ONLY JSON: {"grounded": true/false, "confidence": 0-1, '
         '"unsupported_claims": [...]}. A claim is unsupported if it is not '
-        "directly stated or clearly implied by the context."
+        "directly stated or clearly implied by the context, or if it cites a "
+        "[chunk_id] whose chunk does not actually support it."
     )
     user = f"Context:\n{context}\n\nDraft answer:\n{answer}"
 
-    raw, in_tok, out_tok = _call_groq(system, user, max_tokens=250)
+    raw, in_tok, out_tok = _call_groq(system, user, max_tokens=250, json_mode=True)
     try:
         parsed = json.loads(raw)
     except json.JSONDecodeError:
-        parsed = {"grounded": True, "confidence": 0.5, "unsupported_claims": []}
+        # Fail CLOSED, not open: this is the one place the whole graph relies
+        # on to catch hallucination. If the validator itself breaks (bad
+        # JSON), the old behavior silently trusted the unverified answer,
+        # which defeats the point of having a validator at all. Treating a
+        # parse failure as "not grounded" instead routes back through the
+        # existing retry loop, same as a genuine failed validation.
+        parsed = {
+            "grounded": False,
+            "confidence": 0.0,
+            "unsupported_claims": ["validator_parse_failed"],
+        }
 
     is_grounded = parsed.get("grounded", True)
     state["is_grounded"] = is_grounded

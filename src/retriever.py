@@ -15,7 +15,18 @@ from sentence_transformers import SentenceTransformer
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
-EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+# bge-small-en-v1.5 instead of all-MiniLM-L6-v2: same 384 dimensions (no
+# schema change needed) but noticeably better at short, jargon-heavy queries
+# like "Sitrus Berry", "Sucker Punch", "Tera Type" than a general-purpose
+# sentence embedder. NOTE: requires re-running scripts/ingest_corpus.py to
+# re-embed the corpus with this model before queries will line up with it —
+# mixing embeddings from two different models in the same table silently
+# produces garbage similarity scores.
+EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"
+# BGE models are trained asymmetrically: queries need this instruction
+# prefix prepended for best retrieval quality, passages do not (see
+# scripts/ingest_corpus.py, which intentionally omits it).
+BGE_QUERY_PREFIX = "Represent this sentence for searching relevant passages: "
 RRF_CONSTANT = 60
 
 # 1. Initialize Global Resources (Loaded once at server startup)
@@ -55,7 +66,7 @@ def retrieve(query: str, top_k: int = 5) -> List[Dict[str, Any]]:
         return []
 
     # 1. Generate query embedding (384-dimensional unit-normalized vector)
-    query_vector = embedder.encode(query, normalize_embeddings=True)
+    query_vector = embedder.encode(BGE_QUERY_PREFIX + query, normalize_embeddings=True)
 
     # 2. RRF SQL Query using Common Table Expressions (CTEs)
     # <#> is the negative inner product operator (ideal for normalized vectors in pgvector)

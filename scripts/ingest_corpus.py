@@ -18,7 +18,11 @@ load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 CORPUS_PATH = Path("data/corpus.json")
-EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+# Must match src/retriever.py's EMBEDDING_MODEL exactly, or query vectors
+# and stored passage vectors won't be comparable. No query-instruction
+# prefix here: BGE's asymmetric training expects passages embedded plain,
+# only queries get the "Represent this sentence..." prefix (see retriever.py).
+EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"
 BATCH_SIZE = 32
 
 
