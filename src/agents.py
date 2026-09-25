@@ -10,7 +10,7 @@ Requires GROQ_API_KEY to be set in the environment or Streamlit secrets.
 """
 import json
 import os
-import streamlit as st
+
 
 from groq import Groq
 from dotenv import load_dotenv
@@ -24,11 +24,10 @@ MODEL = "llama-3.3-70b-versatile"
 
 load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-if not GROQ_API_KEY and "GROQ_API_KEY" in st.secrets:
-    GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+
 
 if not GROQ_API_KEY:
-    raise ValueError("GROQ_API_KEY is missing from environment variables or Streamlit secrets.")
+    raise ValueError("GROQ_API_KEY is missing from environment variables")
 
 client = Groq(api_key=GROQ_API_KEY)
 
